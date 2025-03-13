@@ -4,6 +4,10 @@ const canvas=document.getElementById('canvas')
 const ctx=canvas.getContext('2d')
 // console.log(ctx)
 
+let warningDiv = document.getElementById("warning_message");
+
+let noise= document.getElementById("noise-level");
+
 
 navigator.mediaDevices.getUserMedia({audio:true,video:false})
     .then((stream)=>{
@@ -55,8 +59,25 @@ navigator.mediaDevices.getUserMedia({audio:true,video:false})
 
             average=total_loudness/dataArray.length
 
-            if (average>150){
-                alert('get out')
+            // if (average>150){
+            //     alert('get out')
+            // }
+
+            if (average > 150) {
+                warningDiv.style.display = "block"; 
+                // document.body.style.backgroundColor = "rgba(255, 0, 0, 1)";
+            } else {
+                warningDiv.style.display = "none"; 
+                // document.body.style.backgroundColor = "";
+            }
+
+            noise.innerText=`Current Noise Level: ${Math.round(average)}`
+            if (average<=100){
+                noise.style.color='green'
+            }else if (average<140){
+                noise.style.color='yellow'
+            }else{
+                noise.style.color='red'
             }
 
             x=0 
